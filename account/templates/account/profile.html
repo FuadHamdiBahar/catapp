@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block internal_css %}
+<style>
+    /* Container needed to position the button. Adjust the width as needed */
+    .container {
+        position: relative;
+        width: 100%;
+    }
+
+    /* Make the image responsive */
+    .container img {
+        width: 100%;
+        height: auto;
+    }
+
+    /* Style the button and place it in the middle of the container/image */
+    .container .btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        background-color: rgb(49, 127, 216);
+        color: white;
+        font-size: 16px;
+        padding: 12px 24px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .container .btn:hover {
+        background-color: rgb(95, 166, 247);
+    }
+</style>
+{% endblock internal_css %}
+
+
+{% block content %}
+<!-- <div class="row text-center">
+    
+    <img src="{% static 'assets/img/profile.jpg' %}" alt="" srcset="">
+</div> -->
+
+<div class="container text-center">
+    <p class="fs-2"><span class="fw-light">Selamat Datang</span> {{user.first_name}}</p>
+    <img src="{% static 'assets/img/profile.jpg' %}" alt="Snow" class="img-fluid">
+    <a class="btn" href="{% url 'exam:ujian' %}">Mulai Ujian!</a>
+</div>
+{% endblock content %}

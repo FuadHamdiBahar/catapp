@@ -1,0 +1,138 @@
+{% extends 'index.html' %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div id="angka" class="col-md-10">
+
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-center text-center">
+                    <div class="col-md-4">
+                        <div id="soalbox">
+
+                        </div>
+                        <div id="kombinasibox">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="ml-2 mt-2">
+                    <button class="btn btn-light" onclick="checkedA()">A</button>
+                    <button class="btn btn-light" onclick="checkedB()">B</button>
+                    <button class="btn btn-light" onclick="checkedC()">C</button>
+                    <button class="btn btn-light" onclick="checkedD()">D</button>
+                    <button class="btn btn-light" onclick="checkedE()">E</button>
+                </div>
+                <br>
+                <div class="ml-2">
+                    <button id="next" onclick="next()" class="btn btn-secondary">Soal selanjutnya
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="sticky-top">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Jawaban</h4>
+                </div>
+                <div class="card-body">
+                    <form id="form_ujian" action="" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            {% for k in kombinasi %}
+                            <div class="col-md-2">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1">{{k.id}}</span>
+                                    <input type="text" class="form-control" name="{{k.id}}" id="{{k.id}}" readonly>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <input type="submit" class="btn btn-success btn-lg btn-block"
+                            onclick="return confirm('Apakah anda yakin ingin mengakhiri ujian?')" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block script %}
+<script>
+    const data = JSON.parse("{{data|escapejs}}");
+    const data_kombinasi = JSON.parse("{{data_kombinasi|escapejs}}");
+
+    // DOM
+    angka = document.getElementById('angka');
+    soal = document.getElementById('soalbox');
+    kombinasi = document.getElementById('kombinasibox')
+
+    // variabel
+    let id_soal = 0;
+    let id_kombinasi = 0;
+
+    function showSoal(id_soal) {
+        let alamat = data[id_soal].fields.foto_soal
+        angka.innerHTML = "<h4> Soal " + (id_soal + 1) + "</h4>";
+        soal.innerHTML = "<img src=\"/media/" + alamat + "\" class=\"img-fluid\">";
+    }
+
+    function showKombinasi(id_kombinasi) {
+        let alamat = data_kombinasi[id_kombinasi].fields.foto_kombinasi
+        kombinasi.innerHTML = "<img src=\"/media/" + alamat + "\" class=\"img-fluid\">";
+    }
+
+    function checkedA() {
+        var jawaban = document.getElementById(String(id_kombinasi + 1));
+        jawaban.value = "A";
+        showKombinasi(id_kombinasi += 1);
+    }
+
+    function checkedB() {
+        var jawaban = document.getElementById(String(id_kombinasi + 1));
+        jawaban.value = "B";
+        showKombinasi(id_kombinasi += 1);
+    }
+
+    function checkedC() {
+        var jawaban = document.getElementById(String(id_kombinasi + 1));
+        jawaban.value = "C";
+        showKombinasi(id_kombinasi += 1);
+    }
+
+    function checkedD() {
+        var jawaban = document.getElementById(String(id_kombinasi + 1));
+        jawaban.value = "D";
+        showKombinasi(id_kombinasi += 1);
+    }
+
+    function checkedE() {
+        var jawaban = document.getElementById(String(id_kombinasi + 1));
+        jawaban.value = "E";
+        showKombinasi(id_kombinasi += 1);
+    }
+
+
+    function next() {
+        id_soal += 1;
+        showSoal(id_soal);
+        id_kombinasi = id_soal * 25 + 1
+        console.log(id_kombinasi);
+    }
+
+    showSoal(id_soal);
+    showKombinasi(id_kombinasi)
+</script>
+{% endblock script %}
